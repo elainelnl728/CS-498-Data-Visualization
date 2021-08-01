@@ -155,42 +155,42 @@
                 .range(["#f54266", "#429ef5"]); // "#fde725ff", "#18de88"
               
               var mouseover = function(d){
-                // smoker = d.smoker
-                // d3.selectAll(".dot")
-                //     .transition()
-                //     .duration(200)
-                //     .style("fill", "lightgrey")
-                //     .attr("r", 4)
+                smoker = d.smoker
+                d3.selectAll(".dot")
+                    .transition()
+                    .duration(200)
+                    .style("fill", "lightgrey")
+                    .attr("r", 4)
                 
-                // d3.selectAll("." + smoker)
-                //     .transition()
-                //     .duration(200)
-                //     .style("fill", color(smoker))
-                //     .attr("r", 7)
+                d3.selectAll("." + smoker)
+                    .transition()
+                    .duration(200)
+                    .style("fill", color(smoker))
+                    .attr("r", 7)
 
-                tooltip
-                    .style("opacity", 1)
+                // tooltip
+                //     .style("opacity", 1)
               }
 
               var mousemove = function(d) {
-                tooltip
-                    .html("The exact value of<br>the Ground Living area is: " + d.expenses)
-                    .style("left", (d3.mouse(this)[0]+100) + "px")
-                    .style("top", (d3.mouse(this)[1]+100) + "px")
+                // tooltip
+                //     .html("The exact value of<br>the Ground Living area is: " + d.expenses)
+                //     .style("left", (d3.mouse(this)[0]+100) + "px")
+                //     .style("top", (d3.mouse(this)[1]+100) + "px")
               }
 
     
               var mouseleave = function(d){
-                // d3.selectAll(".dot")
-                //     .transition()
-                //     .duration(200)
-                //     .style("fill", function(d) { return color(d.smoker); })
-                //     .attr("r", 4)
-
-                tooltip
+                d3.selectAll(".dot")
                     .transition()
                     .duration(200)
-                    .style("opacity", 0)
+                    .style("fill", function(d) { return color(d.smoker); })
+                    .attr("r", 4)
+
+                // tooltip
+                //     .transition()
+                //     .duration(200)
+                //     .style("opacity", 0)
               }
 
               // Add dot 
@@ -213,12 +213,12 @@
 
     
                 // Add legend
-                svg.append("text").attr("x", 15).attr("y", 5).text("smoker").style("font-size", "16px").attr("alignment-baseline","middle")
+                svg.append("text").attr("x", 15).attr("y", 5).text("Type").style("font-size", "16px").attr("alignment-baseline","middle")
                 svg.append("circle").attr("cx",20).attr("cy",30).attr("r", 6).style("fill", color("yes"))
                 svg.append("circle").attr("cx",20).attr("cy",50).attr("r", 6).style("fill", color("no"))
                 
-                svg.append("text").attr("x", 40).attr("y", 30).text("yes").style("font-size", "15px").attr("alignment-baseline","middle")
-                svg.append("text").attr("x", 40).attr("y", 50).text("no").style("font-size", "15px").attr("alignment-baseline","middle")
+                svg.append("text").attr("x", 40).attr("y", 30).text("Smoker").style("font-size", "15px").attr("alignment-baseline","middle")
+                svg.append("text").attr("x", 40).attr("y", 50).text("Non-Smoker").style("font-size", "15px").attr("alignment-baseline","middle")
 
 
 
