@@ -75,7 +75,7 @@
     // color palette = one color per subgroup
     var color = d3.scaleOrdinal()
       .domain(subgroups)
-      .range(['#C7EFCF','#FE5F55','#EEF5DB'])
+      .range(["#f54266", "#429ef5"])
   
     //stack the data? --> stack per subgroup
     var stackedData = d3.stack()
@@ -179,12 +179,12 @@
       .attr("text-anchor", "middle")
       .style("font-size", "16px")
       .style("text-decoration", "underline")
-      .text("Islands of penguins");
+      .text("Ages of people");
   
     // color palette = one color per subgroup
     var color = d3.scaleOrdinal()
       .domain(subgroups)
-      .range(['#f54266", "#429ef5"'])
+      .range(["#f54266", "#429ef5"])
   
     //stack the data? --> stack per subgroup
     var stackedData = d3.stack()
