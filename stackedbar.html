@@ -14,12 +14,16 @@
     float: left;
   }
 </style>
-<div class="jumbotron" style="background-color: rgb(75, 131, 177); color: white" aligncenter>
-    <h1 style="padding-left : 2%">Relationship Between Medical Expenses and BMI Across Smokers and Non-Smokers</h1>
+
+<div style="padding-left : 10%; padding-right : 10%; padding-top : 0%">
+
+
+<div class="jumbotron" style="background-color: rgb(42, 159, 222); color: white; height: 100px" aligncenter>
+    <h1 style="padding-left : 2%; text-align: center; font-size: 45px;">Relationship Between Medical Expenses and BMI Across Smokers and Non-Smokers</h1>
 </div>
+<br>
+<br>
 <div class="container1" id="chart1"></div>
-
-
 
 
 
@@ -75,7 +79,7 @@
     // color palette = one color per subgroup
     var gender_color = d3.scaleOrdinal()
       .domain(gender_subgroups)
-      .range(["#f54266", "#429ef5"])
+      .range(["#ed9d98", "#e36159"])
   
     //stack the data? --> stack per subgroup
     var stackedData = d3.stack()
@@ -103,7 +107,7 @@
       var subgroupName = d3.select(this.parentNode).datum().key;
       var subgroupValue = d.data[subgroupName];
       tooltip
-          .html("gender: " + subgroupName + "<br>" + "value: " + subgroupValue)
+          .html("Gender: " + subgroupName + "<br>" + "Count: " + subgroupValue)
           .style("opacity", 1)
     }
     var mousemove = function(d) {
@@ -205,7 +209,7 @@
       var subgroupName = d3.select(this.parentNode).datum().key;
       var subgroupValue = d.data[subgroupName];
       tooltip
-          .html("island: " + subgroupName + "<br>" + "value: " + subgroupValue)
+          .html("Age: " + subgroupName + "<br>" + "Count: " + subgroupValue)
           .style("opacity", 1)
     }
     var mousemove = function(d) {
@@ -258,7 +262,14 @@
 
   </script>
   <div class="article-header" aligncenter>
-    <p style="padding-left : 2%">Mouseover to each section of the bar to know more about the data. For this data, they have investigated 342 penguins. For gender, there are 168 male penguins, 165 female penguins, and 9 of those are unknown. For island, there are 167 penguins from Biscoe island, 124 penguins from Dream, and 51 of those are from Torgersen island. </p>
-    <br/><h3>Please click <a href="cs498_final.html">here</a> back to homepage or <a href="scatterplot.html">here</a> back to the scatterplot!</h3><br/></div>
+    <p style="padding-left : 2%">Mouseover to each section of the bar to know more details about the data. For this dataset, it contains 1338 data points including 676 male and 662 female people. Their ages are between 18 to 64.</p>
+
+    <h3>Return back to:</h3>
+    <a href="cs498_final.html">Homepage</a><br>
+    <a href="scatterplot.html">Scatterplot</a>
+
+  </div>
     
   </div>
+
+</div>
