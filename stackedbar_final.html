@@ -59,7 +59,7 @@
   
     // Add Y axis
     var y = d3.scaleLinear()
-      .domain([0, 1400])
+      .domain([0, 1200])
       .range([ height, 0 ]);
     svg1.append("g")
       .call(d3.axisLeft(y));
@@ -168,7 +168,7 @@
   
     // Add Y axis
     var y = d3.scaleLinear()
-      .domain([0, 1400])
+      .domain([0, 1200])
       .range([ height, 0 ]);
     svg.append("g")
       .call(d3.axisLeft(y));
@@ -184,7 +184,7 @@
     // color palette = one color per subgroup
     var color = d3.scaleOrdinal()
       .domain(subgroups)
-      .range(['#C7EFCF','#FE5F55','#EEF5DB'])
+      .range(['#f54266", "#429ef5"'])
   
     //stack the data? --> stack per subgroup
     var stackedData = d3.stack()
