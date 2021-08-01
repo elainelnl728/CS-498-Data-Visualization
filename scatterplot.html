@@ -110,33 +110,87 @@
                 .style("text-anchor", "middle")
                 .text("Expense ($)");
               
+
+
+               // Add a tooltip div. Here I define the general feature of the tooltip: stuff that do not depend on the data point.
+              // Its opacity is set to 0: we don't see it by default.
+              var tooltip = d3.select("#vis-canvas")
+                .append("div")
+                .style("opacity", 0)
+                .attr("class", "tooltip")
+                .style("background-color", "white")
+                .style("border", "solid")
+                .style("border-width", "1px")
+                .style("border-radius", "5px")
+                .style("padding", "10px")
+
+                // // A function that change this tooltip when the user hover a point.
+                // // Its opacity is set to 1: we can now see it. Plus it set the text and position of tooltip depending on the datapoint (d)
+                // var mouseover = function(d) {
+                //   tooltip
+                //     .style("opacity", 1)
+                //                    }
+
+                // var mousemove = function(d) {
+                //   tooltip
+                //     .html("Exepnses: " + d.expenses)
+                //     .style("left", (d3.mouse(this)[0]+90) + "px") // It is important to put the +90: other wise the tooltip is exactly where the point is an it creates a weird effect
+                //     .style("top", (d3.mouse(this)[1]) + "px")
+                // }
+
+                // // A function that change this tooltip when the leaves a point: just need to set opacity to 0 again
+                // var mouseleave = function(d) {
+                //   tooltip
+                //     .transition()
+                //     .duration(200)
+                //     .style("opacity", 0)
+                 
+                // }
+
+
               
               // Add color
               var color = d3.scaleOrdinal()
                 .domain(["yes", "no"])
                 .range(["#f54266", "#429ef5"]); // "#fde725ff", "#18de88"
               
-              var highlight = function(d){
-                smoker = d.smoker
-                d3.selectAll(".dot")
-                    .transition()
-                    .duration(200)
-                    .style("fill", "lightgrey")
-                    .attr("r", 4)
+              var mouseover = function(d){
+                // smoker = d.smoker
+                // d3.selectAll(".dot")
+                //     .transition()
+                //     .duration(200)
+                //     .style("fill", "lightgrey")
+                //     .attr("r", 4)
                 
-                d3.selectAll("." + smoker)
-                    .transition()
-                    .duration(200)
-                    .style("fill", color(smoker))
-                    .attr("r", 7)
+                // d3.selectAll("." + smoker)
+                //     .transition()
+                //     .duration(200)
+                //     .style("fill", color(smoker))
+                //     .attr("r", 7)
+
+                tooltip
+                    .style("opacity", 1)
               }
+
+              var mousemove = function(d) {
+                tooltip
+                    .html("The exact value of<br>the Ground Living area is: " + d.expenses)
+                    .style("left", (d3.mouse(this)[0]+100) + "px")
+                    .style("top", (d3.mouse(this)[1]+100) + "px")
+              }
+
     
-              var doNotHighlight = function(){
-                d3.selectAll(".dot")
+              var mouseleave = function(d){
+                // d3.selectAll(".dot")
+                //     .transition()
+                //     .duration(200)
+                //     .style("fill", function(d) { return color(d.smoker); })
+                //     .attr("r", 4)
+
+                tooltip
                     .transition()
                     .duration(200)
-                    .style("fill", function(d) { return color(d.smoker); })
-                    .attr("r", 4)
+                    .style("opacity", 0)
               }
 
               // Add dot 
@@ -148,11 +202,15 @@
                   .attr("class", function(d){return "dot " + d.smoker})
                   .attr("cx", function(d){return x(d.bmi);})
                   .attr("cy", function(d){return y(d.expenses);})
-                  .attr("cy1", function(d){return y(d.age);})
+                  .style("stroke", "white")
+                  // .attr("cy1", function(d){return y(d.age);})
                   .attr("r", 4)
                   .style("fill", function(d) { return color(d.smoker); })
-                  .on("mouseover", highlight)
-                  .on("mouseleave", doNotHighlight)
+                .on("mouseover", mouseover)
+                .on("mousemove", mousemove )
+                .on("mouseleave", mouseleave)
+
+
     
                 // Add legend
                 svg.append("text").attr("x", 15).attr("y", 5).text("smoker").style("font-size", "16px").attr("alignment-baseline","middle")
@@ -161,63 +219,10 @@
                 
                 svg.append("text").attr("x", 40).attr("y", 30).text("yes").style("font-size", "15px").attr("alignment-baseline","middle")
                 svg.append("text").attr("x", 40).attr("y", 50).text("no").style("font-size", "15px").attr("alignment-baseline","middle")
-                
 
 
 
-
-
-                // Add a tooltip div. Here I define the general feature of the tooltip: stuff that do not depend on the data point.
-                // Its opacity is set to 0: we don't see it by default.
-                var tooltip = d3.select("#vis-canvas")
-                  .append("div")
-                  .style("opacity", 0)
-                  .attr("class", "tooltip")
-                  .style("background-color", "white")
-                  .style("border", "solid")
-                  .style("border-width", "1px")
-                  .style("border-radius", "5px")
-                  .style("padding", "10px")
-
-                // A function that change this tooltip when the user hover a point.
-                // Its opacity is set to 1: we can now see it. Plus it set the text and position of tooltip depending on the datapoint (d)
-                var mouseover = function(d) {
-                  tooltip
-                    .style("opacity", 1)
-                }
-
-                var mousemove = function(d) {
-                  tooltip
-                    .html("The exact value of<br>the Ground Living area is: " + d.expenses)
-                    .style("left", (d3.mouse(this)[0]+90) + "px") // It is important to put the +90: other wise the tooltip is exactly where the point is an it creates a weird effect
-                    .style("top", (d3.mouse(this)[1]) + "px")
-                }
-
-                // A function that change this tooltip when the leaves a point: just need to set opacity to 0 again
-                var mouseleave = function(d) {
-                  tooltip
-                    .transition()
-                    .duration(200)
-                    .style("opacity", 0)
-                }
-
-                // Add dots
-                svg.append('g')
-                  .selectAll("dot")
-                  .data(data.filter(function(d,i){return i<50})) // the .filter part is just to keep a few dots on the chart, not all of them
-                  .enter()
-                  .append("circle")
-                    .attr("cx", function (d) { return x(d.bmi); } )
-                    .attr("cy", function (d) { return y(d.expenses); } )
-                    .attr("r", 7)
-                    .style("fill", "#69b3a2")
-                    .style("opacity", 0.3)
-                    .style("stroke", "white")
-                  .on("mouseover", mouseover )
-                  .on("mousemove", mousemove )
-                  .on("mouseleave", mouseleave )
-  
-
+               
 
 
 
