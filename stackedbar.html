@@ -43,7 +43,7 @@
   d3.csv("https://raw.githubusercontent.com/elainelnl728/cs498-final/main/data/medical_expense_sex.csv", function(data) {
   
     // List of subgroups = header of the csv files = soil condition here
-    var subgroups = data.columns.slice(1)
+    var gender_subgroups = data.columns.slice(1)
   
     // List of groups = value of the first column called group -> I show them on the X axis
     var groups = d3.map(data, function(d){return(d.Smoker)}).keys()
@@ -73,13 +73,13 @@
       .text("Gender of people");
   
     // color palette = one color per subgroup
-    var color = d3.scaleOrdinal()
-      .domain(subgroups)
+    var gender_color = d3.scaleOrdinal()
+      .domain(gender_subgroups)
       .range(["#f54266", "#429ef5"])
   
     //stack the data? --> stack per subgroup
     var stackedData = d3.stack()
-      .keys(subgroups)
+      .keys(gender_subgroups)
       (data)
   
   
@@ -124,7 +124,7 @@
       // Enter in the stack data = loop key per key = group per group
       .data(stackedData)
       .enter().append("g")
-        .attr("fill", function(d) { return color(d.key); })
+        .attr("fill", function(d) { return gender_color(d.key); })
         .selectAll("rect")
         // enter a second time = loop subgroup per subgroup to add all rectangles
         .data(function(d) { return d; })
@@ -147,11 +147,11 @@
       .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
   
-  // Parse the Data
+  // For age stackedbar
   d3.csv("https://raw.githubusercontent.com/elainelnl728/cs498-final/main/data/medical_expenses_age.csv", function(data) {
   
     // List of subgroups = header of the csv files = soil condition here
-    var subgroups = data.columns.slice(1)
+    var age_subgroups = data.columns.slice(1)
   
     // List of groups = value of the first column called group -> I show them on the X axis
     var groups = d3.map(data, function(d){return(d.Smoker)}).keys()
@@ -180,18 +180,12 @@
       .style("text-decoration", "underline")
       .text("Ages of people");
   
-    // color palette = one color per subgroup
-    var color = d3.scaleOrdinal()
-      .domain(subgroups)
-      .range(["#f54266", "#429ef5"])
-  
     //stack the data? --> stack per subgroup
     var stackedData = d3.stack()
-      .keys(subgroups)
+      .keys(age_subgroups)
       (data)
   
-  
-  
+
   
     // ----------------
     // Create a tooltip
@@ -225,7 +219,14 @@
     }
   
   
-  
+    // color palette = one color per subgroup
+    var smoker_age_color = d3.scaleOrdinal()
+      .domain(age_subgroups)
+      .range(["#f5b8b3", "#f29b94"])
+
+    var nonsmoker_age_color = d3.scaleOrdinal()
+      .domain(age_subgroups)
+      .range(["#94d0f2", "#5ccde0", "#65ceeb", "#2786a3", "#0f566b", "#032833"])  
   
     // Show the bars
     svg.append("g")
@@ -233,7 +234,12 @@
       // Enter in the stack data = loop key per key = group per group
       .data(stackedData)
       .enter().append("g")
-        .attr("fill", function(d) { return color(d.key); })
+        .attr("fill", function(d, i) {
+          // if (y(d[1]) < 60) {
+          //   return smoker_age_color(d.key);
+          // } 
+          return nonsmoker_age_color(d.key);
+        })
         .selectAll("rect")
         // enter a second time = loop subgroup per subgroup to add all rectangles
         .data(function(d) { return d; })
