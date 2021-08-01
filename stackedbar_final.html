@@ -73,9 +73,9 @@
       .text("Gender of people");
   
     // color palette = one color per subgroup
-    var color = d3.scaleOrdinal()
+    var color = d3.scaleOrdinal(d3.schemeBlues[2])
       .domain(subgroups)
-      .range(["#f54266", "#429ef5"])
+      // .range(["#f54266", "#429ef5"])
   
     //stack the data? --> stack per subgroup
     var stackedData = d3.stack()
@@ -182,9 +182,9 @@
       .text("Ages of people");
   
     // color palette = one color per subgroup
-    var color = d3.scaleOrdinal()
+    var color = d3.scaleOrdinal(d3.schemeBlues[6])
       .domain(subgroups)
-      .range(["#f54266", "#429ef5"])
+      // .range(["#f54266", "#429ef5"])
   
     //stack the data? --> stack per subgroup
     var stackedData = d3.stack()
