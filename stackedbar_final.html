@@ -59,7 +59,7 @@
   
     // Add Y axis
     var y = d3.scaleLinear()
-      .domain([0, 600])
+      .domain([0, 1400])
       .range([ height, 0 ]);
     svg1.append("g")
       .call(d3.axisLeft(y));
@@ -154,8 +154,8 @@
     // List of subgroups = header of the csv files = soil condition here
     var subgroups = data.columns.slice(1)
   
-    // List of groups = species here = value of the first column called group -> I show them on the X axis
-    var groups = d3.map(data, function(d){return(d.smoker)}).keys()
+    // List of groups = value of the first column called group -> I show them on the X axis
+    var groups = d3.map(data, function(d){return(d.Smoker)}).keys()
   
     // Add X axis
     var x = d3.scaleBand()
@@ -168,7 +168,7 @@
   
     // Add Y axis
     var y = d3.scaleLinear()
-      .domain([0, 600])
+      .domain([0, 1400])
       .range([ height, 0 ]);
     svg.append("g")
       .call(d3.axisLeft(y));
@@ -239,7 +239,7 @@
         // enter a second time = loop subgroup per subgroup to add all rectangles
         .data(function(d) { return d; })
         .enter().append("rect")
-          .attr("x", function(d) { return x(d.data.species); })
+          .attr("x", function(d) { return x(d.data.Smoker); })
           .attr("y", function(d) { return y(d[1]); })
           .attr("height", function(d) { return y(d[0]) - y(d[1]); })
           .attr("width",x.bandwidth())
