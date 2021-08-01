@@ -1,0 +1,191 @@
+
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+  <title>CS 498 Data Visualization Final Project</title>
+  <meta name="author" content="Niliang Lu">
+  <meta name="description" content="">
+
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/stepper.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script src="https://d3js.org/d3.v4.js"></script>
+  <script src="scripts/stepper.js"></script>
+</head>
+<body>
+  <div class="jumbotron" style="background-color: rgb(220,220,220); color: skyblue; font: 16px sans-serif" aligncenter>
+    <h1 style="padding-left : 2%">Relationship between medical expenses and BMI across smokers and non-smokers</h1>
+  </div>
+  <div id="container">
+    <h1>Medical Expenses vs BMI across smokers and non-smokers</h1>
+    <h2 class="subtitle">To be added </h2>
+    <div id="vis-nav">
+      <a href="#" id="step1" class="step-link active">Scene 1</a>
+      <a href="#" id="step2" class="step-link">Scene 2</a>
+      <a href="#" id="step3" class="step-link">Scene 3</a>
+      <a href="#" id="step4" class="step-link">Scene 4</a>
+    </div>
+    <div id="vis-container">
+      <div id="annotation-steps">
+        <div class="annotation-step" id="step1-annotation" style="display:block;">
+          <div class="annotation" id="step1-left-annotation" >
+            <h4>Mouseover the data to explore detailed medical expenes and BMI information for smokers and non-smokers.</h4>
+          </div>
+        </div>
+        <div class="annotation-step" id="step2-annotation">
+          <div class="annotation" id="step2-center-annotation" >
+            <h4>Smokers tends to have higher medical expenses than non-smokers.</h4>
+          </div>
+        </div>
+        <div class="annotation-step" id="step3-annotation">
+          <div class="annotation" id="step3-high-annotation" >
+            <h4>Smoking tends to lead higher the medical expenses for obesity persons(BMI>30).</h4>
+          </div>
+        </div>
+        <div class="annotation-step" id="step4-annotation">
+          <div class="annotation" id="step4-high-annotation" >
+            <h4>Smoking is a more important factors than BMI regarding medical expenses.</h4>
+          </div>
+        </div>
+      </div>
+
+      <div id="vis-canvas">
+      
+      <style>
+        .axis path,
+        .axis line {
+          fill: none;
+          stroke: #FFF;
+          shape-rendering: crispEdges;
+        }
+
+        .dot{
+          stroke: #FFF;
+        }
+      </style>
+
+      <script>
+            var margin = {top: 50, right: 50, bottom: 50, left:80},
+            width = 940 - margin.left - margin.right, 
+            height = 500 - margin.top - margin.bottom;
+    
+            var svg = d3.select("#vis-canvas")
+              .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+              .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            
+                d3.csv("https://raw.githubusercontent.com/elainelnl728/elainelnl728.github.io/main/data/Medical_Cost_Personal_Datasets.csv",function(data){
+              
+              // Add the x axis 
+              var x = d3.scaleLinear()
+                .domain([0, 60])
+                .range([0, width]);
+
+              svg.append("g")
+                .attr("transform", "translate(0," + height + ")")
+                .call(d3.axisBottom(x));
+
+              // text label for the x axis 
+              svg.append("text")
+                .attr("transform", "translate(" + (width/2) + "," + (height + margin.top - 15) + ")")
+                .style("text-anchor", "middle")
+                .text("BMI");
+    
+              // Add the y axis 
+              var y = d3.scaleLinear()
+                .domain([0, 60000])
+                .range([height, 0]);
+              svg.append("g")
+                .call(d3.axisLeft(y));
+
+              // text label for the y axis
+              svg.append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 20 - margin.left)
+                .attr("x", 0 - (height / 2))
+                .attr("dy", "1em")
+                .style("text-anchor", "middle")
+                .text("Expense ($)");
+    
+
+              // // Add the dual y axis 
+              // var y1 = d3.scaleLinear()
+              //   .domain([0, 60])
+              //   .range([height, 0]);
+              // svg.append("g")
+              //   .attr("transform", "translate(" + width + ",0)")
+              //   .call(d3.axisRight(y1));    
+
+              // // text label for the dual y axis
+              // svg.append("text")
+              //   .attr("transform","rotate(-90)")
+              //   .attr("y", 780 + margin.right)
+              //   .attr("x", 0 - (height / 2))
+              //   .attr("dy", "1em")
+              //   .style("text-anchor", "middle")
+              //   .text("Age");
+              
+              
+              // Add color
+              var color = d3.scaleOrdinal()
+                .domain(["yes", "no"])
+                .range(["#f54266", "#429ef5"]); // "#fde725ff", "#18de88"
+              
+              var highlight = function(d){
+                smoker = d.smoker
+                d3.selectAll(".dot")
+                    .transition()
+                    .duration(200)
+                    .style("fill", "lightgrey")
+                    .attr("r", 4)
+                
+                d3.selectAll("." + smoker)
+                    .transition()
+                    .duration(200)
+                    .style("fill", color(smoker))
+                    .attr("r", 7)
+              }
+    
+              var doNotHighlight = function(){
+                d3.selectAll(".dot")
+                    .transition()
+                    .duration(200)
+                    .style("fill", function(d) { return color(d.smoker); })
+                    .attr("r", 4)
+              }
+
+              // Add dot 
+              svg.append("g")
+                .selectAll("dot")
+                .data(data)
+                .enter()
+                .append("circle")
+                  .attr("class", function(d){return "dot " + d.smoker})
+                  .attr("cx", function(d){return x(d.bmi);})
+                  .attr("cy", function(d){return y(d.expenses);})
+                  .attr("cy1", function(d){return y(d.age);})
+                  .attr("r", 4)
+                  .style("fill", function(d) { return color(d.smoker); })
+                  .on("mouseover", highlight)
+                  .on("mouseleave", doNotHighlight)
+    
+                // Add legend
+                svg.append("text").attr("x", 15).attr("y", 5).text("smoker").style("font-size", "16px").attr("alignment-baseline","middle")
+                svg.append("circle").attr("cx",20).attr("cy",30).attr("r", 6).style("fill", color("yes"))
+                svg.append("circle").attr("cx",20).attr("cy",50).attr("r", 6).style("fill", color("no"))
+                
+                svg.append("text").attr("x", 40).attr("y", 30).text("yes").style("font-size", "15px").attr("alignment-baseline","middle")
+                svg.append("text").attr("x", 40).attr("y", 50).text("no").style("font-size", "15px").attr("alignment-baseline","middle")
+                
+            })
+          </script>
+      </div>
+    </div>
+  </div>
+  <div class="article-header" aligncenter>
+    <br/><h3>Please click <a href="stackedbar_final.html">here</a> to know more about the data!</h3><br/></div>
+   </div>
+</body>
