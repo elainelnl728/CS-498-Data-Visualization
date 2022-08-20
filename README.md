@@ -1,6 +1,5 @@
 # Relationship Between Medical Expenses and BMI Across Smokers and Non-Smokers
 
-Please click HERE to visualization page
 #Introduction
 In this project, I use the dataset on Kaggle that was obtained from the book of Machine Learning with R by Brett Lantz. This dataset contains 1338 data with a total of 7 feature including 4 numerical (Age, BMI, Children, and Expenses) and 3 nominal (Sex, Smoker, and Region) features. No missing or undefined values are found in this dataset.
 
